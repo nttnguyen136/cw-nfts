@@ -37,7 +37,8 @@ where
         self.contract_info.save(deps.storage, &info)?;
         let minter = deps.api.addr_validate(&msg.minter)?;
         self.minter.save(deps.storage, &minter)?;
-        Ok(Response::default())
+        Ok(Response::default()
+                    .add_attribute("count","1"))
     }
 
     pub fn execute(
