@@ -7,14 +7,13 @@ CHAIN_ID=aura-testnet
 WASM_PATH="./artifacts/"
 WASM_FILE="cw721_base.wasm"
 WASM_FILE_PATH=$WASM_PATH$WASM_FILE
-WALLET=ndev
+WALLET=wallet
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=5
 
 INIT_MSG='{"name":"Base Contract '$CODE_ID'","symbol":"BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
 
-
-AURAD=$(which aurad)
+AURAD="~/go/bin/aurad"
 
 case $CHAIN_ID in
   aura-testnet)
@@ -53,7 +52,7 @@ echo " "
 if [ "$BUILD" = "TRUE" ]
 then
   DOCKER_BUILDKIT=1
-  sudo docker run --rm -v "$(pwd)":/code \
+  docker run --rm -v "$(pwd)":/code \
     --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
     --mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
     $WORKSPACE
