@@ -1,5 +1,5 @@
 #!/bin/bash
-BUILD=""
+BUILD="TRUE"
 WORKSPACE=cosmwasm/workspace-optimizer:0.12.6
 CHAIN_ID=aura-testnet
 # CHAIN_ID=serenity-testnet-001
@@ -9,10 +9,10 @@ WASM_FILE="cw721_base.wasm"
 WASM_FILE_PATH=$WASM_PATH$WASM_FILE
 WALLET=ndev
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
-DELAY=5
+DELAY=10
 
 INIT_MSG='{"name":"Base Contract '$CODE_ID'","symbol":"BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
-
+CONTRACT_LABEL="Base Contract"
 
 AURAD=$(which aurad)
 
@@ -50,8 +50,7 @@ echo "======================================================="
 echo " "
 
 
-if [ "$BUILD" = "TRUE" ]
-then
+if [ "$BUILD" = "TRUE" ];then
   DOCKER_BUILDKIT=1
   sudo docker run --rm -v "$(pwd)":/code \
     --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
@@ -61,43 +60,49 @@ fi
 
 TXHASH=$($AURAD tx wasm store $WASM_FILE_PATH --from $WALLET $TXFLAG --output json | jq -r ".txhash")
 
-# echo "$AURASCAN/transaction/$TXHASH"
+echo "Store hash: $AURASCAN/transaction/$TXHASH"
 
-sleep $DELAY
 
-CODE_ID=$(curl "$RPC/tx?hash=0x$TXHASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[-1].attributes[0].value")
-
-if [ -n "$CODE_ID" ]
-then 
-  INIT=$INIT_MSG
-
-  LABEL="Base Contract $CODE_ID"
-
-  echo "=================== CONTRACT INFO ==================="
-  echo "CODE_ID:       $CODE_ID"
-  echo "INIT:          $INIT"
-  echo "LABEL:         $LABEL"
-  echo "====================================================="
-
-  INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
-
-  HASH=$( echo $INSTANTIATE | jq -r ".txhash")
-
+if [ -n "$TXHASH" ]; then
   sleep $DELAY
 
-  CONTRACT=$(curl "$RPC/tx?hash=0x$HASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[0].attributes[0].value")
+  CODE_ID=$(curl "$RPC/tx?hash=0x$TXHASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[-1].attributes[0].value")
 
-  COMMIT_ID=$(git rev-parse --verify HEAD)
+  if [ $CODE_ID -ge 0 ]; then 
+    INIT=$INIT_MSG
 
-  echo "====================================================="
-  echo "Aurascan: $AURASCAN/transaction/$HASH"
-  echo "Contract: $AURASCAN/contracts/$CONTRACT"
-  echo "Github: $GITHUB/commit/$COMMIT_ID"
-  echo "Cargo version: $WORKSPACE"
-  echo "WASM FILE: $WASM_FILE"
-  echo "====================================================="
+    LABEL="$CONTRACT_LABEL $CODE_ID"
+
+    echo "=================== CONTRACT INFO ==================="
+    echo "CODE_ID:       $CODE_ID"
+    echo "INIT:          $INIT"
+    echo "LABEL:         $LABEL"
+    echo "====================================================="
+
+    INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+
+    HASH=$( echo $INSTANTIATE | jq -r ".txhash")
+
+    sleep $DELAY
+
+    CONTRACT=$(curl "$RPC/tx?hash=0x$HASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[0].attributes[0].value")
+
+    COMMIT_ID=$(git rev-parse --verify HEAD)
+
+    echo "====================================================="
+    echo "Aurascan: $AURASCAN/transaction/$HASH"
+    echo "Contract: $AURASCAN/contracts/$CONTRACT"
+    echo "Github: $GITHUB/commit/$COMMIT_ID"
+    echo "Cargo version: $WORKSPACE"
+    echo "WASM FILE: $WASM_FILE"
+    echo "====================================================="
+  else
+    echo "==================="
+    echo "Can not get CODE_ID"
+    echo "==================="
+  fi
 else
-  echo "==================="
-  echo "Can not get CODE_ID"
-  echo "==================="
+    echo "======================================"
+    echo "Can not get STORE contract"
+    echo "======================================"
 fi
