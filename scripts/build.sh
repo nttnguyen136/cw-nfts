@@ -13,6 +13,8 @@ GITHUB="https://github.com/nttnguyen136/cw-nfts"
 INIT_MSG='{"name":"Base Contract '$CODE_ID'","symbol":"BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
 
 
+AURAD=(which aurad)
+
 case $CHAIN_ID in
   aura-testnet)
     RPC="https://rpc.dev.aura.network:443"
@@ -57,7 +59,7 @@ then
   sleep 1
 fi
 
-TXHASH=$(aurad tx wasm store $WASM_FILE_PATH --from $WALLET $TXFLAG --output json | jq -r ".txhash")
+TXHASH=$($AURAD tx wasm store $WASM_FILE_PATH --from $WALLET $TXFLAG --output json | jq -r ".txhash")
 
 # echo "$AURASCAN/transaction/$TXHASH"
 
@@ -77,7 +79,7 @@ then
   echo "LABEL:         $LABEL"
   echo "====================================================="
 
-  INSTANTIATE=$(aurad tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+  INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
 
   HASH=$( echo $INSTANTIATE | jq -r ".txhash")
 
