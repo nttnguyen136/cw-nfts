@@ -13,7 +13,7 @@ GITHUB="https://github.com/nttnguyen136/cw-nfts"
 INIT_MSG='{"name":"Base Contract '$CODE_ID'","symbol":"BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
 
 
-AURAD=(which aurad)
+AURAD=$(which aurad)
 
 case $CHAIN_ID in
   aura-testnet)
