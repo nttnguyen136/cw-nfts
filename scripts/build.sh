@@ -13,6 +13,7 @@ DELAY=10
 
 INIT_MSG='{"name":"Base Contract '$CODE_ID'","symbol":"BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
 CONTRACT_LABEL="Base Contract"
+CODE_ID=360
 
 AURAD=$(which aurad)
 
@@ -58,51 +59,47 @@ if [ "$BUILD" = "TRUE" ];then
     $WORKSPACE
 fi
 
-TXHASH=$($AURAD tx wasm store $WASM_FILE_PATH --from $WALLET $TXFLAG --output json | jq -r ".txhash")
+if [ -z $CODE_ID]; then
+  TXHASH=$($AURAD tx wasm store $WASM_FILE_PATH --from $WALLET $TXFLAG --output json | jq -r ".txhash")
 
-echo "Store hash: $AURASCAN/transaction/$TXHASH"
+  echo "Store hash: $AURASCAN/transaction/$TXHASH"
 
-
-if [ -n "$TXHASH" ]; then
   sleep $DELAY
 
   CODE_ID=$(curl "$RPC/tx?hash=0x$TXHASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[-1].attributes[0].value")
+fi
 
-  if [ $CODE_ID -ge 0 ]; then 
-    INIT=$INIT_MSG
 
-    LABEL="$CONTRACT_LABEL $CODE_ID"
+if [ $CODE_ID -ge 0 ]; then 
+  INIT=$INIT_MSG
 
-    echo "=================== CONTRACT INFO ==================="
-    echo "CODE_ID:       $CODE_ID"
-    echo "INIT:          $INIT"
-    echo "LABEL:         $LABEL"
-    echo "====================================================="
+  LABEL="$CONTRACT_LABEL $CODE_ID"
 
-    INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+  echo "=================== CONTRACT INFO ==================="
+  echo "CODE_ID:       $CODE_ID"
+  echo "INIT:          $INIT"
+  echo "LABEL:         $LABEL"
+  echo "====================================================="
 
-    HASH=$( echo $INSTANTIATE | jq -r ".txhash")
+  INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
 
-    sleep $DELAY
+  HASH=$( echo $INSTANTIATE | jq -r ".txhash")
 
-    CONTRACT=$(curl "$RPC/tx?hash=0x$HASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[0].attributes[0].value")
+  sleep $DELAY
 
-    COMMIT_ID=$(git rev-parse --verify HEAD)
+  CONTRACT=$(curl "$RPC/tx?hash=0x$HASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[0].attributes[0].value")
 
-    echo "====================================================="
-    echo "Aurascan: $AURASCAN/transaction/$HASH"
-    echo "Contract: $AURASCAN/contracts/$CONTRACT"
-    echo "Github: $GITHUB/commit/$COMMIT_ID"
-    echo "Cargo version: $WORKSPACE"
-    echo "WASM FILE: $WASM_FILE"
-    echo "====================================================="
-  else
-    echo "==================="
-    echo "Can not get CODE_ID"
-    echo "==================="
-  fi
+  COMMIT_ID=$(git rev-parse --verify HEAD)
+
+  echo "====================================================="
+  echo "Aurascan: $AURASCAN/transaction/$HASH"
+  echo "Contract: $AURASCAN/contracts/$CONTRACT"
+  echo "Github: $GITHUB/commit/$COMMIT_ID"
+  echo "Cargo version: $WORKSPACE"
+  echo "WASM FILE: $WASM_FILE"
+  echo "====================================================="
 else
-    echo "======================================"
-    echo "Can not get STORE contract"
-    echo "======================================"
+  echo "==================="
+  echo "Can not get CODE_ID"
+  echo "==================="
 fi
