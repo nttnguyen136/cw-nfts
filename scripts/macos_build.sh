@@ -1,20 +1,20 @@
 
 #!/bin/bash
 BUILD="TRUE"
-WORKSPACE=cosmwasm/workspace-optimizer:0.12.6
-# CHAIN_ID=aura-testnet
+WORKSPACE=cosmwasm/workspace-optimizer:0.12.7
+#CHAIN_ID=aura-testnet
 CHAIN_ID=serenity-testnet-001
-# CHAIN_ID=euphoria-1
+#CHAIN_ID=euphoria-1
 WASM_PATH="./artifacts/"
-WASM_FILE="cw721_base.wasm"
+#WASM_FILE="cw721_base.wasm" #normal
+WASM_FILE="cw721_metadata_onchain.wasm" #meta onchain
 WASM_FILE_PATH=$WASM_PATH$WASM_FILE
-WALLET=wallet
+WALLET=wallet #qfu
+#WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-#CODE_ID=379
-
-INIT_MSG='{"name":"Base Contract","symbol":"BASE","minter":"aura1h6r78trkk2ewrry7s3lclrqu9a22ca3hpmyqfu"}'
-CONTRACT_LABEL="Base Contract"
+#CODE_ID=216
+CONTRACT_LABEL="Contract name"
 
 AURAD=$(which aurad)
 
@@ -37,7 +37,7 @@ case $CHAIN_ID in
     RPC="https://rpc.euphoria.aura.network:443"
     AURASCAN="https://euphoria.aurascan.io"
     NODE="--node $RPC"
-    FEE="0.0025ueura"
+    FEE="0.0025ueaura"
     ;;
 esac
 
@@ -68,14 +68,14 @@ if [ -z $CODE_ID ]; then
 
   sleep $DELAY
 
-  CODE_ID=$(curl "$RPC/tx?hash=0x$TXHASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[-1].attributes[0].value")
+  CODE_ID=$(curl "$RPC/tx?hash=0x$TXHASH" | jq -r ".result.tx_result.log" | jq -r ".[0].events[-1].attributes[-1].value")
 fi
 
-
-if [ $CODE_ID -ge 0 ]; then 
+if [ $CODE_ID -ge 0 ]; then
+  INIT_MSG='{"name":"'$CODE_ID' Token CW721","symbol":"'$CODE_ID' BASE","minter":"aura1h6r78trkk2ewrry7s3lclrqu9a22ca3hpmyqfu"}'
   INIT=$INIT_MSG
 
-  LABEL="$CONTRACT_LABEL $CODE_ID"
+  LABEL="$CODE_ID $CONTRACT_LABEL"
 
   echo "=================== CONTRACT INFO ==================="
   echo "CODE_ID:       $CODE_ID"
@@ -84,6 +84,9 @@ if [ $CODE_ID -ge 0 ]; then
   echo "====================================================="
 
   INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+
+  echo $INSTANTIATE
+  echo $HASH
 
   HASH=$( echo $INSTANTIATE | jq -r ".txhash")
 
