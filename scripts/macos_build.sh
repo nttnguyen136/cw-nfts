@@ -2,9 +2,9 @@
 #!/bin/bash
 BUILD="TRUE"
 WORKSPACE=cosmwasm/workspace-optimizer:0.12.7
-#CHAIN_ID=aura-testnet
-CHAIN_ID=serenity-testnet-001
-#CHAIN_ID=euphoria-1
+ CHAIN_ID=aura-testnet-2
+# CHAIN_ID=serenity-testnet-001
+# CHAIN_ID=euphoria-2
 WASM_PATH="./artifacts/"
 #WASM_FILE="cw721_base.wasm" #normal
 WASM_FILE="cw721_metadata_onchain.wasm" #meta onchain
@@ -13,13 +13,13 @@ WALLET=wallet #qfu
 #WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-#CODE_ID=216
-CONTRACT_LABEL="Contract name"
+# CODE_ID=479
+CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
 
 case $CHAIN_ID in
-  aura-testnet)
+  aura-testnet-2)
     RPC="https://rpc.dev.aura.network:443"
     AURASCAN="http://explorer.dev.aura.network"
     NODE="--node $RPC"
@@ -33,7 +33,7 @@ case $CHAIN_ID in
     FEE="0.0025uaura"
     ;;
 
-  euphoria-1)
+  euphoria-2)
     RPC="https://rpc.euphoria.aura.network:443"
     AURASCAN="https://euphoria.aurascan.io"
     NODE="--node $RPC"
@@ -52,7 +52,7 @@ echo "======================================================="
 echo " "
 
 
-if [ "$BUILD" = "TRUE" ];then
+if [ "$BUILD" = "TRUE" ]; then
   DOCKER_BUILDKIT=1
   docker run --rm -v "$(pwd)":/code \
     --mount type=volume,source="$(basename "$(pwd)")_cache",target=/code/target \
@@ -72,7 +72,7 @@ if [ -z $CODE_ID ]; then
 fi
 
 if [ $CODE_ID -ge 0 ]; then
-  INIT_MSG='{"name":"'$CODE_ID' Token CW721","symbol":"'$CODE_ID' BASE","minter":"aura1h6r78trkk2ewrry7s3lclrqu9a22ca3hpmyqfu"}'
+  INIT_MSG='{"name":"'$CODE_ID' CW721 Token","symbol":"'$CODE_ID' BASE","minter":"aura1afuqcya9g59v0slx4e930gzytxvpx2c43xhvtx"}'
   INIT=$INIT_MSG
 
   LABEL="$CODE_ID $CONTRACT_LABEL"
@@ -97,12 +97,24 @@ if [ $CODE_ID -ge 0 ]; then
   COMMIT_ID=$(git rev-parse --verify HEAD)
 
   echo "====================================================="
+  echo `date`
+  echo "CW721 - Code ID: "$CODE_ID
   echo "Aurascan: $AURASCAN/transaction/$HASH"
   echo "Contract: $AURASCAN/contracts/$CONTRACT"
   echo "Github: $GITHUB/commit/$COMMIT_ID"
   echo "Cargo version: $WORKSPACE"
   echo "WASM FILE: $WASM_FILE"
   echo "====================================================="
+
+  echo "=====================================================" >> CW721info.txt
+  echo `date` >> CW721info.txt
+  echo "CW721 - Code: " $CODE_ID >> CW721info.txt
+  echo "Aurascan: $AURASCAN/transaction/$HASH" >> CW721info.txt
+  echo "Contract: $AURASCAN/contracts/$CONTRACT" >> CW721info.txt
+  echo "Github: $GITHUB/commit/$COMMIT_ID" >> CW721info.txt
+  echo "Cargo version: $WORKSPACE" >> CW721info.txt
+  echo "WASM FILE: $WASM_FILE" >> CW721info.txt
+  echo "=====================================================" >> CW721info.txt
 else
   echo "==================="
   echo "Can not get CODE_ID"
