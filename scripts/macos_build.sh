@@ -9,11 +9,11 @@ WASM_PATH="./artifacts/"
 #WASM_FILE="cw721_base.wasm" #normal
 WASM_FILE="cw721_metadata_onchain.wasm" #meta onchain
 WASM_FILE_PATH=$WASM_PATH$WASM_FILE
-WALLET=wallet #qfu
-#WALLET=ndt    #rjm
+# WALLET=wallet #qfu
+WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-# CODE_ID=1086
+# CODE_ID=1087
 CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
