@@ -2,8 +2,8 @@
 #!/bin/bash
 BUILD="TRUE"
 WORKSPACE=cosmwasm/workspace-optimizer:0.12.7
- CHAIN_ID=aura-testnet-2
-# CHAIN_ID=serenity-testnet-001
+#  CHAIN_ID=aura-testnet-2
+CHAIN_ID=serenity-testnet-001
 # CHAIN_ID=euphoria-2
 WASM_PATH="./artifacts/"
 #WASM_FILE="cw721_base.wasm" #normal
@@ -13,7 +13,7 @@ WALLET=wallet #qfu
 #WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-# CODE_ID=479
+# CODE_ID=1086
 CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
