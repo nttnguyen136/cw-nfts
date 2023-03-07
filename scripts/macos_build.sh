@@ -83,7 +83,7 @@ if [ $CODE_ID -ge 0 ]; then
   echo "LABEL:         $LABEL"
   echo "====================================================="
 
-  INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+  # INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
 
   echo $INSTANTIATE
   echo $HASH
