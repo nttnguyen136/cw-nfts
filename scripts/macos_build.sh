@@ -13,7 +13,7 @@ WASM_FILE_PATH=$WASM_PATH$WASM_FILE
 WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-CODE_ID=1135
+# CODE_ID=1135
 CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
