@@ -13,7 +13,7 @@ WASM_FILE_PATH=$WASM_PATH$WASM_FILE
 WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-# CODE_ID=1067
+# CODE_ID=1122
 CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
@@ -83,7 +83,7 @@ if [ $CODE_ID -ge 0 ]; then
   echo "LABEL:         $LABEL"
   echo "====================================================="
 
-  # INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
+  INSTANTIATE=$($AURAD tx wasm instantiate $CODE_ID "$INIT" --from $WALLET --label "$LABEL" $TXFLAG -y --no-admin --output json)
 
   echo $INSTANTIATE
   echo $HASH
