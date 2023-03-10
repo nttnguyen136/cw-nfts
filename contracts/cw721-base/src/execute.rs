@@ -38,7 +38,7 @@ where
         let minter = deps.api.addr_validate(&msg.minter)?;
         self.minter.save(deps.storage, &minter)?;
         Ok(Response::new()
-                    .add_attribute("instantiate","114"))
+                    .add_attribute("instantiate","115"))
     }
 
     pub fn execute(
