@@ -1767,3 +1767,12 @@ Github: https://github.com/nttnguyen136/cw-nfts/commit/7184e1a0f01823a601e2b0bce
 Cargo version: cosmwasm/workspace-optimizer:0.12.7
 WASM FILE: cw721_metadata_onchain.wasm
 =====================================================
+=====================================================
+Mon Mar 13 14:37:54 +07 2023
+CW721 - Code:  543
+Aurascan: https://euphoria.aurascan.io/transaction/2DE836883F00EDE66FB564F4969440538CB7FBA8DDB9D7ECFC714A5DCA1DAE14
+Contract: https://euphoria.aurascan.io/contracts/aura1vn28qqv804rwjx83wxrfll2x4j54cssuc3sx63huxv3689e686jqc5llu5
+Github: https://github.com/nttnguyen136/cw-nfts/commit/ebbe8fa00a1201d15012311e6a5124a424875eda
+Cargo version: cosmwasm/workspace-optimizer:0.12.7
+WASM FILE: cw721_metadata_onchain.wasm
+=====================================================
