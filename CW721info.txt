@@ -1893,3 +1893,21 @@ Github: https://github.com/nttnguyen136/cw-nfts/commit/fc0660bb66e5bb0b977c98133
 Cargo version: cosmwasm/workspace-optimizer:0.12.7
 WASM FILE: cw721_metadata_onchain.wasm
 =====================================================
+=====================================================
+Wed Mar 15 09:16:35 +07 2023
+CW721 - Code:  1177
+Aurascan: https://serenity.aurascan.io/transaction/66BFA8A4BCC521B54F22A7EEC43C239F3CE01FFD5C30E0D5B47DFC617C9E0D42
+Contract: https://serenity.aurascan.io/contracts/aura1n2v2wyfw5d3cs2e7slty0792ww7uks5tscxvg26jcpzmez4fwmgsn00xzd
+Github: https://github.com/nttnguyen136/cw-nfts/commit/dbec9c6395f245178497437fe332c733c94e5dc8
+Cargo version: cosmwasm/workspace-optimizer:0.12.7
+WASM FILE: cw721_metadata_onchain.wasm
+=====================================================
+=====================================================
+Wed Mar 15 16:06:26 +07 2023
+CW721 - Code:  517
+Aurascan: http://explorer.dev.aura.network/transaction/222CB62761C446CC1D92677B8F3A0D606E660CD72E6908054174838D3012B1CD
+Contract: http://explorer.dev.aura.network/contracts/aura1ktxp0nzmkrej552sd072cpe3qushekx8vm3lys7qjd6f4kpemglspu2lwr
+Github: https://github.com/nttnguyen136/cw-nfts/commit/dbec9c6395f245178497437fe332c733c94e5dc8
+Cargo version: cosmwasm/workspace-optimizer:0.12.7
+WASM FILE: cw721_metadata_onchain.wasm
+=====================================================
