@@ -5,6 +5,7 @@ WORKSPACE=cosmwasm/workspace-optimizer:0.12.7
 #  CHAIN_ID=aura-testnet-2
 CHAIN_ID=serenity-testnet-001
 # CHAIN_ID=euphoria-2
+CHAIN_ID=xstaxy-1
 WASM_PATH="./artifacts/"
 #WASM_FILE="cw721_base.wasm" #normal
 WASM_FILE="cw721_metadata_onchain.wasm" #meta onchain
@@ -29,6 +30,13 @@ case $CHAIN_ID in
   serenity-testnet-001)
     RPC="https://rpc.serenity.aura.network:443"
     AURASCAN="https://serenity.aurascan.io"
+    NODE="--node $RPC"
+    FEE="0.0025uaura"
+    ;;
+
+  xstaxy-1)
+    RPC="http://rpc.aura.network:443"
+    AURASCAN="https://aurascan.io"
     NODE="--node $RPC"
     FEE="0.0025uaura"
     ;;
