@@ -1,9 +1,9 @@
 
 #!/bin/bash
-BUILD="TRUE"
+# BUILD="TRUE"
 WORKSPACE=cosmwasm/workspace-optimizer:0.12.9
-#  CHAIN_ID=aura-testnet-2
-CHAIN_ID=serenity-testnet-001
+ CHAIN_ID=aura-testnet-2
+# CHAIN_ID=serenity-testnet-001
 # CHAIN_ID=euphoria-2
 # CHAIN_ID=xstaxy-1
 WASM_PATH="./artifacts/"
