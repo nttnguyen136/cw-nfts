@@ -14,7 +14,7 @@ WALLET=wallet #qfu
 # WALLET=ndt    #rjm
 GITHUB="https://github.com/nttnguyen136/cw-nfts"
 DELAY=10
-# CODE_ID=1184
+# CODE_ID=1378
 CONTRACT_LABEL="CW721 Contract name"
 
 AURAD=$(which aurad)
