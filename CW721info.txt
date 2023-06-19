@@ -2208,3 +2208,12 @@ Github: https://github.com/nttnguyen136/cw-nfts/commit/fb570915b4874af913e3fde4e
 Cargo version: cosmwasm/workspace-optimizer:0.12.13
 WASM FILE: cw721_metadata_onchain.wasm
 =====================================================
+=====================================================
+Mon Jun 19 14:05:21 +07 2023
+CW721 - Code:  1386
+Aurascan: https://serenity.aurascan.io/transaction/4307F9340B07282DAF6D5AED453C1CFF5501C8209736F1F7F28212B39AE4A18B
+Contract: https://serenity.aurascan.io/contracts/aura15wusvr8j9gjkyt74vrhdg7x5y2k0n5manulecn042x9jtl8ajuks9ugjd2
+Github: https://github.com/nttnguyen136/cw-nfts/commit/df96ffacfff7d5907ff77b183ef79c44346883c4
+Cargo version: cosmwasm/workspace-optimizer:0.12.12
+WASM FILE: cw721_metadata_onchain.wasm
+=====================================================
